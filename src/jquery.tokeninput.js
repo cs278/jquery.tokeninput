@@ -39,6 +39,7 @@ $.fn.tokenInput = function (url, options) {
     settings.classes = $.extend({
         tokenList: "token-input-list",
         token: "token-input-token",
+        label: "token-input-label",
         tokenDelete: "token-input-delete-token",
         selectedToken: "token-input-selected-token",
         highlightedToken: "token-input-highlighted-token",
@@ -322,15 +323,15 @@ $.TokenList = function (input, settings) {
         
         if(li_data && li_data.length) {
             for(var i in li_data) {
-                var this_token = $("<li><p>"+li_data[i].name+"</p> </li>")
+                var this_token = $("<li><em class=\"" + settings.classes.label + "\">"+li_data[i].name+"</em> </li>")
                     .addClass(settings.classes.token)
                     .insertBefore(input_token);
 
                 $("<span>x</span>")
                     .addClass(settings.classes.tokenDelete)
-                    .appendTo(this_token)
+                    .appendTo(this_token.find('em'))
                     .click(function () {
-                        delete_token($(this).parent());
+                        delete_token($(this).parents('li'));
                         return false;
                     });
 
@@ -413,7 +414,7 @@ $.TokenList = function (input, settings) {
 
     // Inner function to a token to the list
     function insert_token(id, value) {
-      var this_token = $("<li><p>"+ value +"</p> </li>")
+      var this_token = $("<li><em class=\"" + settings.classes.label + "\">"+ value +"</em> </li>")
       .addClass(settings.classes.token)
       .insertBefore(input_token);
 
@@ -423,9 +424,9 @@ $.TokenList = function (input, settings) {
       // The 'delete token' button
       $("<span>x</span>")
           .addClass(settings.classes.tokenDelete)
-          .appendTo(this_token)
+          .appendTo(this_token.find('em'))
           .click(function () {
-              delete_token($(this).parent());
+              delete_token($(this).parents('li'));
               return false;
           });
 
