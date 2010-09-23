@@ -33,7 +33,8 @@ $.fn.tokenInput = function (url, options) {
         suggestedTagsText: "Suggested tags:",
         defaultSuggestTagSize: 14,
         defaultSuggestTagSizeUnit: 'px',
-        afterAdd: function() {}
+        afterAdd: function() {},
+        useClientSideSearch: false
     }, options);
 
     settings.classes = $.extend({
@@ -94,6 +95,8 @@ $.TokenList = function (input, settings) {
     // Keep track of the timeout
     var timeout;
 
+    var client_side_data;
+
     // Create a new text input an attach keyup events
     var input_box = $("<input autocomplete=\"off\" type=\"text\">")
         .attr('id', $(input).attr('id')+'Dynamic')
@@ -104,6 +107,12 @@ $.TokenList = function (input, settings) {
         .focus(function () {
             if (settings.focusHint && (settings.tokenLimit == null || settings.tokenLimit != token_count)) {
                 show_dropdown_hint();
+            }
+            
+            if (settings.useClientSideSearch && !client_side_data) {
+              client_side_data = [];
+              var http_method = settings.method.toLowerCase();
+        		  $[http_method](settings.url, {}, prepare_client_side_data, settings.contentType);
             }
         })
         .blur(function () {
@@ -175,7 +184,13 @@ $.TokenList = function (input, settings) {
                 case KEY.TAB:
                 case KEY.RETURN:
                 case KEY.COMMA:
-                	
+          
+          // Submit form if user hits return a second time
+          if(event.keyCode == KEY.RETURN && $(this).val() == "") {
+            parentForm[0].submit();
+            return false;
+          }
+          
 					if(selected_dropdown_item) {
 						add_existing_token($(selected_dropdown_item));
 						return false;
@@ -208,6 +223,13 @@ $.TokenList = function (input, settings) {
                                input_box.blur();
                            });
 
+    // Keep a reference to the parent form
+    // Collect the stray arbitrary tags before the parent form submits
+    var parentForm = hidden_input.parents('form')
+                        .submit(function(){
+                          add_new_token(input_box.val());
+                        });
+    
     // Keep a reference to the selected token and dropdown item
     var selected_token = null;
     var selected_dropdown_item = null;
@@ -576,6 +598,7 @@ $.TokenList = function (input, settings) {
     }
 
     function show_dropdown_searching () {
+        hide_dropdown();
         dropdown
             .html("<p>"+settings.searchingText+"</p>")
             .show();
@@ -633,9 +656,9 @@ $.TokenList = function (input, settings) {
               dropdown_ul.show();
 
         } else {
-            dropdown
-                .html("<p>"+settings.noResultsText+"</p>")
-                .show();
+            hide_dropdown();
+            if (settings.noResultsText)
+              dropdown.html("<p>"+settings.noResultsText+"</p>").show();
         }
     }
 
@@ -666,8 +689,10 @@ $.TokenList = function (input, settings) {
             if(selected_token) {
                 deselect_token($(selected_token), POSITION.AFTER);
             }
+            
             if (query.length >= settings.minChars) {
-                show_dropdown_searching();
+                if (settings.searchingText)
+                  show_dropdown_searching();
                 if (immediate) {
                     run_search(query);
                 } else {
@@ -706,15 +731,36 @@ $.TokenList = function (input, settings) {
               }
               
 			};
-            
-            if(settings.method == "POST") {
+        
+        if(settings.useClientSideSearch) {
+          callback(search_client_side_data(query));
+        } else if( settings.method == "POST" ) {
 			    $.post(settings.url + queryStringDelimiter + settings.queryParam + "=" + query, {}, callback, settings.contentType);
 		    } else {
-		        $.get(settings.url + queryStringDelimiter + settings.queryParam + "=" + query, {}, callback, settings.contentType);
+		      $.get(settings.url + queryStringDelimiter + settings.queryParam + "=" + query, {}, callback, settings.contentType);
 		    }
         }
     }
+    
+    function prepare_client_side_data(results) {
+      client_side_data = [];
+      $.each(results, function(i,res){
+        res.searchable_string = (res.name + "--" + res.id).toLowerCase();
+        client_side_data.push(res);
+      });
+    }
+
+    function search_client_side_data(query) {
+      var lowerQuery = query.toLowerCase();
+      var results = []
+      $.each(client_side_data, function(i,data) {
+        if(data.searchable_string.indexOf(query) != -1)
+          results.push(data)
+      })
+      return results
+    }
 };
+
 
 // Really basic cache for the results
 $.TokenList.Cache = function (options) {
