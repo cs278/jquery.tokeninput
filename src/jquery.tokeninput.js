@@ -276,19 +276,8 @@ $.TokenList = function (input, settings) {
 			.text(settings.suggestedTagsText);
 		
 		var suggested_tags = $("<ul />")
-			.appendTo(suggested_tags_container)
-			.click(function(event) {
-				var li = get_element_from_event(event, "li");
-				add_new_token($('a', li).text());
-				li.remove();
-				
-				//Should the whole ul be removed?
-				if($('li',this).length==0) {
-					$(suggested_tags_container).remove();
-				}
-				return false;
-				
-			});
+			.appendTo(suggested_tags_container);
+
 		
 	    init_suggestedTags();
 	
@@ -373,7 +362,20 @@ $.TokenList = function (input, settings) {
 		    		
 		    		var this_token = $('<li><a href="#" style="font-size: ' + (settings.defaultSuggestTagSize+sizeAdjust) + settings.defaultSuggestTagSizeUnit + '">'+suggestedTag+'</a></li>')
 	                .addClass(settings.classes.suggestedTag)
-	                .appendTo(suggested_tags);
+	                .appendTo(suggested_tags)
+	                .click(function() {
+
+	        			var li = this;
+	        			add_new_token($('a', li).text());
+	        			$(li).remove();
+	        			
+	        			//Should the whole ul be removed?
+	        			if($('li',suggested_tags).length==0) {
+	        				$(suggested_tags_container).remove();
+	        			}
+	        			return false;
+	        			
+	        		});;
 		    		
     			}
     		
