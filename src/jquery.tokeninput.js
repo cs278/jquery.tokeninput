@@ -127,7 +127,6 @@ $.TokenList = function (input, settings) {
                 case KEY.RIGHT:
                 case KEY.UP:
                 case KEY.DOWN:
-                	console.log('keydown');
                     if(!$(this).val()) {
                         previous_token = input_token.prev();
                         next_token = input_token.next();
@@ -149,11 +148,16 @@ $.TokenList = function (input, settings) {
                     } else {
                         var dropdown_item = null;
 
-                        if(event.keyCode == KEY.DOWN || event.keyCode == KEY.RIGHT) {
-                            dropdown_item = $(selected_dropdown_item).next();
+                        if(!selected_dropdown_item) {
+                        	dropdown_item = $('li:first', dropdown);
                         } else {
-                            dropdown_item = $(selected_dropdown_item).prev();
+                        	if(event.keyCode == KEY.DOWN || event.keyCode == KEY.RIGHT) {
+                                dropdown_item = $(selected_dropdown_item).next();
+                            } else {
+                                dropdown_item = $(selected_dropdown_item).prev();
+                            }
                         }
+                        
 
                         if(dropdown_item.length) {
                             select_dropdown_item(dropdown_item);
@@ -185,19 +189,19 @@ $.TokenList = function (input, settings) {
                 case KEY.RETURN:
                 case KEY.COMMA:
           
-          // Submit form if user hits return a second time
-          if(event.keyCode == KEY.RETURN && $(this).val() == "") {
-            parentForm[0].submit();
-            return false;
-          }
+                	// Submit form if user hits return a second time
+            		if(event.keyCode == KEY.RETURN && $(this).val() == "") {
+        				parentForm[0].submit();
+    					return false;
+            		}
           
 					if(selected_dropdown_item) {
 						add_existing_token($(selected_dropdown_item));
-						return false;
-					} else {
+					} else if(!settings.requireMatch) {
 						add_new_token($(this).val());
-						return false;
 					}
+					
+					return false;
 					break;
 
                 case KEY.ESC:
@@ -227,7 +231,9 @@ $.TokenList = function (input, settings) {
     // Collect the stray arbitrary tags before the parent form submits
     var parentForm = hidden_input.parents('form')
                         .submit(function(){
-                          add_new_token(input_box.val());
+                        	if(!settings.requireMatch) {
+                        		add_new_token(input_box.val());
+                        	}
                         });
     
     // Keep a reference to the selected token and dropdown item
@@ -641,7 +647,7 @@ $.TokenList = function (input, settings) {
                         this_li.addClass(settings.classes.dropdownItem2);
                     }
 
-                    if(i == 0) {
+                    if(settings.requireMatch && i == 0) {
                         select_dropdown_item(this_li);
                     }
 
@@ -752,12 +758,13 @@ $.TokenList = function (input, settings) {
 
     function search_client_side_data(query) {
       var lowerQuery = query.toLowerCase();
-      var results = []
+      var results = [];
       $.each(client_side_data, function(i,data) {
-        if(data.searchable_string.indexOf(query) != -1)
-          results.push(data)
-      })
-      return results
+        if(data.searchable_string.indexOf(query) != -1) {
+          results.push(data);
+      	}
+      });
+      return results;
     }
 };
 
