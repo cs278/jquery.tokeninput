@@ -496,6 +496,11 @@ $.TokenList = function (input, settings) {
     //Added TH - This is for adding a token that doesn't exist in the list. Could do with drying this up because it's very similar to add_existing_token.
     function add_new_token (label) {
     	
+    	//Don't add the tag if it's exactly the same as the input label (for when the field's been labelified).
+    	if(input_box.val()==$('label[for=' + input_box.attr('id') + ']').text()) {
+    		return false;
+    	}
+    	
     	if($.trim(label) == '') {
     		return false;
     	}
