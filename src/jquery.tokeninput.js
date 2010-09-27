@@ -231,7 +231,7 @@ $.TokenList = function (input, settings) {
     // Collect the stray arbitrary tags before the parent form submits
     var parentForm = hidden_input.parents('form')
                         .submit(function(){
-                        	if(!settings.requireMatch) {
+                        	if(!settings.requireMatch && input_box.val()!=$('label[for=' + input_box.attr('id') + ']').text()) {
                         		add_new_token(input_box.val());
                         	}
                         });
@@ -495,11 +495,6 @@ $.TokenList = function (input, settings) {
     
     //Added TH - This is for adding a token that doesn't exist in the list. Could do with drying this up because it's very similar to add_existing_token.
     function add_new_token (label) {
-    	
-    	//Don't add the tag if it's exactly the same as the input label (for when the field's been labelified).
-    	if(input_box.val()==$('label[for=' + input_box.attr('id') + ']').text()) {
-    		return false;
-    	}
     	
     	if($.trim(label) == '') {
     		return false;
