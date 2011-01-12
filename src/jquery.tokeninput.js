@@ -340,6 +340,7 @@ $.TokenList = function (input, settings) {
         
         if(li_data && li_data.length) {
             for(var i in li_data) {
+            if (li_data.hasOwnProperty(i)) {
                 var this_token = $("<li><em class=\"" + settings.classes.label + "\">"+li_data[i].name+"</em> </li>")
                     .addClass(settings.classes.token)
                     .insertBefore(input_token);
@@ -365,6 +366,7 @@ $.TokenList = function (input, settings) {
                 // Save this token id
                 var id_string = li_data[i].id + ","
                 hidden_input.val(hidden_input.val() + id_string);
+            }
             }
         }
     }
