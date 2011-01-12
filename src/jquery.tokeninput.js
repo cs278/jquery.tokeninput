@@ -363,8 +363,7 @@ $.TokenList = function (input, settings) {
                 hide_dropdown();
 
                 // Save this token id
-                var id_string = li_data[i].id + ","
-                hidden_input.val(hidden_input.val() + id_string);
+                add_hidden_element(li_data[i].id);
             }
         }
     }
@@ -496,9 +495,6 @@ $.TokenList = function (input, settings) {
         hide_dropdown();
 
         // Save this token id
-        var id_string = li_data.id + ","
-        hidden_input.val(hidden_input.val() + id_string);
-
 		add_hidden_element(li_data.id);
         
         token_count++;
@@ -527,9 +523,6 @@ $.TokenList = function (input, settings) {
         hide_dropdown();
 
         // Save this token id
-        var id_string = label + ","
-        hidden_input.val(hidden_input.val() + id_string);
-        
 		add_hidden_element(id_string);
 
         token_count++;
@@ -593,17 +586,6 @@ $.TokenList = function (input, settings) {
 
         // Show the input box and give it focus again
         input_box.focus();
-
-        // Delete this token's id from hidden input
-        var str = hidden_input.val()
-        var start = str.indexOf(token_data.id+",");
-        var end = str.indexOf(",", start) + 1;
-
-        if(end >= str.length) {
-            hidden_input.val(str.slice(0, start));
-        } else {
-            hidden_input.val(str.slice(0, start) + str.slice(end, str.length));
-        }
         
 		remove_hidden_element(token_data.id);
 
