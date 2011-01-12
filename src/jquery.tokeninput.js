@@ -467,6 +467,20 @@ $.TokenList = function (input, settings) {
       return this_token;
     }
 
+	function add_hidden_element(value)
+	{
+		$(input).after($('<input>').attr({
+			type:	'hidden',
+			name:	$(input).attr('name') + '[]',
+			value:	value
+		}));
+	}
+	//.replace('[', '\[').replace(']', '\]')
+	function remove_hidden_element(value)
+	{
+		$('input[type=hidden][name="' + $(input).attr('name') + '[]"][value="' + value + '"]').remove();
+	}
+
     // Add a token to the token list based on user input
     function add_existing_token (item) {
         
@@ -484,6 +498,8 @@ $.TokenList = function (input, settings) {
         // Save this token id
         var id_string = li_data.id + ","
         hidden_input.val(hidden_input.val() + id_string);
+
+		add_hidden_element(li_data.id);
         
         token_count++;
         
@@ -514,6 +530,8 @@ $.TokenList = function (input, settings) {
         var id_string = label + ","
         hidden_input.val(hidden_input.val() + id_string);
         
+		add_hidden_element(id_string);
+
         token_count++;
         
         if(settings.tokenLimit != null && settings.tokenLimit >= token_count) {
@@ -587,6 +605,8 @@ $.TokenList = function (input, settings) {
             hidden_input.val(str.slice(0, start) + str.slice(end, str.length));
         }
         
+		remove_hidden_element(token_data.id);
+
         token_count--;
         
         if (settings.tokenLimit != null) {
