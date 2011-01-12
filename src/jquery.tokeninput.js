@@ -291,6 +291,9 @@ $.TokenList = function (input, settings) {
         .append(input_box);
 
     init_list(hidden_input);
+
+	// No longer need this element in the DOM
+	hidden_input.detach();
     
     suggestedTags = settings.suggestedTags;
 	if(suggestedTags && suggestedTags.length) {
@@ -364,8 +367,7 @@ $.TokenList = function (input, settings) {
                 hide_dropdown();
 
                 // Save this token id
-                var id_string = li_data[i].id + ","
-                hidden_input.val(hidden_input.val() + id_string);
+                add_hidden_element(li_data[i].id);
             }
             }
         }
@@ -469,6 +471,20 @@ $.TokenList = function (input, settings) {
       return this_token;
     }
 
+	function add_hidden_element(value)
+	{
+		$(parentForm).append($('<input>').attr({
+			type:	'hidden',
+			name:	$(hidden_input).attr('name') + '[]',
+			value:	value
+		}));
+	}
+	//.replace('[', '\[').replace(']', '\]')
+	function remove_hidden_element(value)
+	{
+		$('input[type=hidden][name="' + $(hidden_input).attr('name') + '[]"][value="' + value + '"]', parentForm).remove();
+	}
+
     // Add a token to the token list based on user input
     function add_existing_token (item) {
         
@@ -484,8 +500,7 @@ $.TokenList = function (input, settings) {
         hide_dropdown();
 
         // Save this token id
-        var id_string = li_data.id + ","
-        hidden_input.val(hidden_input.val() + id_string);
+		add_hidden_element(li_data.id);
         
         token_count++;
         
@@ -513,9 +528,8 @@ $.TokenList = function (input, settings) {
         hide_dropdown();
 
         // Save this token id
-        var id_string = label + ","
-        hidden_input.val(hidden_input.val() + id_string);
-        
+		add_hidden_element(id_string);
+
         token_count++;
         
         if(settings.tokenLimit != null && settings.tokenLimit >= token_count) {
@@ -577,18 +591,9 @@ $.TokenList = function (input, settings) {
 
         // Show the input box and give it focus again
         input_box.focus();
-
-        // Delete this token's id from hidden input
-        var str = hidden_input.val()
-        var start = str.indexOf(token_data.id+",");
-        var end = str.indexOf(",", start) + 1;
-
-        if(end >= str.length) {
-            hidden_input.val(str.slice(0, start));
-        } else {
-            hidden_input.val(str.slice(0, start) + str.slice(end, str.length));
-        }
         
+		remove_hidden_element(token_data.id);
+
         token_count--;
         
         if (settings.tokenLimit != null) {
