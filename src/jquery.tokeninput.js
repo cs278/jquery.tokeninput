@@ -468,16 +468,16 @@ $.TokenList = function (input, settings) {
 
 	function add_hidden_element(value)
 	{
-		$(input).after($('<input>').attr({
+		$(parentForm).append($('<input>').attr({
 			type:	'hidden',
-			name:	$(input).attr('name') + '[]',
+			name:	$(hidden_input).attr('name') + '[]',
 			value:	value
 		}));
 	}
 	//.replace('[', '\[').replace(']', '\]')
 	function remove_hidden_element(value)
 	{
-		$('input[type=hidden][name="' + $(input).attr('name') + '[]"][value="' + value + '"]').remove();
+		$('input[type=hidden][name="' + $(hidden_input).attr('name') + '[]"][value="' + value + '"]', parentForm).remove();
 	}
 
     // Add a token to the token list based on user input
