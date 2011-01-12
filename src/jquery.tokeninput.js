@@ -235,9 +235,6 @@ $.TokenList = function (input, settings) {
                         		add_new_token(input_box.val());
                         	}
                         });
-
-	// No longer need this element in the DOM
-	hidden_input.detach();
     
     // Keep a reference to the selected token and dropdown item
     var selected_token = null;
@@ -294,6 +291,9 @@ $.TokenList = function (input, settings) {
         .append(input_box);
 
     init_list(hidden_input);
+
+	// No longer need this element in the DOM
+	hidden_input.detach();
     
     suggestedTags = settings.suggestedTags;
 	if(suggestedTags && suggestedTags.length) {
