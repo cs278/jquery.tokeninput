@@ -33,15 +33,14 @@ How to Use This jQuery Plugin:
         [{"id":"856","name":"House"},
          {"id":"1035","name":"Desperate Housewives"},
          {"id":"1048","name":"Dollhouse"},
-         {"id":"1113","name":"Full House"}
-        ]
+         {"id":"1113","name":"Full House"}]
 
 * Turn text inputs into tokeninputs using jQuery and point them to your results script:
 
-    <script type="text/javascript">
-    $(document).ready(function () {
-      $("#my-text-input").tokenInput("/url/to/your/script/");
-    });
-    </script>
+      <script type="text/javascript">
+        $(document).ready(function () {
+          $("#my-text-input").tokenInput("/url/to/your/script/");
+        });
+      </script>
 
 * A list of selected item ids is created inside the original text entry, process them as usual when the form is submitted.
