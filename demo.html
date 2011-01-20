@@ -1,6 +1,6 @@
 <html>
 <head>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 
     <script type="text/javascript" src="src/jquery.tokeninput.js"></script>
 
@@ -10,7 +10,7 @@
 
     <script type="text/javascript">
     $(document).ready(function() {
-        $("#tokenize").tokenInput("http://loopj.com/tokeninput/tvshows.php", {
+        $("#tokenize").tokenInput("data.php", {
             hintText: "Type in the names of your favorite TV shows",
             noResultsText: "No results",
             searchingText: "Searching...",
@@ -19,7 +19,7 @@
             focusHint: false
         });
 
-        $("#tokenize2").tokenInput("/tokeninput/tvshows.php", {
+        $("#tokenize2").tokenInput("data.php", {
             classes: {
                 tokenList: "token-input-list-facebook",
                 token: "token-input-token-facebook",
