@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="styles/token-input-facebook.css" type="text/css" />
 
     <script type="text/javascript">
+            var url = 'data/static.json';
+      
       $(document).ready(function() {
-        $("#tokenize").tokenInput('data.php');
+        $("#tokenize").tokenInput(url);
 
-        $("#tokenize-suggested").tokenInput("data.php", {
+        $("#tokenize-suggested").tokenInput(url, {
           hintText: "Type in the names of your favorite TV shows",
           noResultsText: "No results",
           searchingText: "Searching...",
@@ -19,7 +21,7 @@
           focusHint: false
         });
 
-        $("#tokenize-facebook").tokenInput("data.php", {
+        $("#tokenize-facebook").tokenInput(url, {
           classes: {
             tokenList: "token-input-list-facebook",
             token: "token-input-token-facebook",
@@ -40,13 +42,11 @@
 <body>
   <h1>Jquery Tokenizing Autocomplete Input</h1>
 
-<? if($_POST) : ?>
-  <h2>Submitted data (<a href="">clear</a>)</h2>
-    <pre>
-<? print_r($_POST); ?>
-    </pre>
-<? endif; ?>
-
+    <h2>Notice: improved sample available</h2>
+  <p>If you have PHP running, please visit instead <a href="sample.php">sample.php</a> for a richer sample.</p>
+  <p>The autocomplete data loaded in this non-HTML version is not actually sensitive to the query entered, so autocomplete will suggest the same thing no matter what you start typing.</p>
+  
+  
   <form method="post">
     <fieldset>
       <legend>Vanilla example</legend>
