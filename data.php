@@ -19,10 +19,10 @@ if(array_key_exists('q', $_GET) && $_GET['q']) {
   $results = $data;
 }
 
-echo '[';
+$response = '';
 
 foreach($results as $key => $result) {
-  echo "{\"id\":$key,\"name\":\"$result\"}";
+  $response .= ",{\"id\":$key,\"name\":\"$result\"}";
 }
 
-echo ']';
+echo '[' . substr($response, 1) . ']';
