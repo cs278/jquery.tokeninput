@@ -111,10 +111,8 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
 /* Suggested Tags */
 div.token-input-suggested-tags ul {
 	list-style: none;
-	width: 160px;
-	float: left;
 	display:block;
-
+  overflow: hidden;
 }
 
 div.token-input-suggested-tags ul li {

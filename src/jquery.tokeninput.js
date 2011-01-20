@@ -14,6 +14,10 @@
 (function($) {
 
   $.fn.tokenInput = function (url, options) {
+    if(options == undefined) {
+      options = {}
+    }
+
     var settings = $.extend({
       url: url,
       hintText: "Type in a search term",
@@ -34,7 +38,7 @@
       defaultSuggestTagSize: 14,
       defaultSuggestTagSizeUnit: 'px',
       afterAdd: function() {},
-      useClientSideSearch: false
+      useClientSideSearch: false,
     }, options);
 
     settings.classes = $.extend({
