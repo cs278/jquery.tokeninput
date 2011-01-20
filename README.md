@@ -3,12 +3,12 @@ jQuery Plugin: Tokenizing Autocomplete Text Entry
 
 Authorship
 ----------
-By James Smith - http://loopj.com
-Forked by Simpleweb - http://www.simpleweb.co.uk
-Forked by Chris Smith - http://www.cs278.org
-Forked by Steven Xu - http://www.stevenxu.ca
+* By James Smith - [http://loopj.com](http://loopj.com)
+* Forked by Simpleweb - [http://www.simpleweb.co.uk](http://www.simpleweb.co.uk)
+* Forked by Chris Smith - [http://www.cs278.org](http://www.cs278.org)
+* Forked by Steven Xu - [http://www.stevenxu.ca](http://www.stevenxu.ca)
 
-History - https://github.com/loopj/jQuery-Tokenizing-Autocomplete-Plugin/network
+History - [https://github.com/loopj/jQuery-Tokenizing-Autocomplete-Plugin/network](https://github.com/loopj/jQuery-Tokenizing-Autocomplete-Plugin/network)
 
 Overview
 --------
@@ -27,7 +27,7 @@ How to Use This jQuery Plugin:
 * Include one of the provided stylesheets, or make your own
 * Create a server-side script (php/rails/django anything goes) to generate the search results.
   The script itself can fetch data from wherever you like, for example a database or a hardcoded list, but it must do the following:
-  * Take exactly one GET parameter named “q” which will contain the query string. E.g. http://www.example.com/myscript?q=query
+  * Take exactly one GET parameter named “q” which will contain the query string. E.g. [http://www.example.com/myscript?q=query](http://www.example.com/myscript?q=query)
   * Output JSON search results in the following format:
 
         [{"id":"856","name":"House"},
