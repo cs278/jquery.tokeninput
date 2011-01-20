@@ -120,10 +120,10 @@
 
       switch(event.keyCode) {
         case KEY.LEFT:
-          case KEY.RIGHT:
-            case KEY.UP:
-              case KEY.DOWN:
-                if(!$(this).val()) {
+        case KEY.RIGHT:
+        case KEY.UP:
+        case KEY.DOWN:
+        if(!$(this).val()) {
           previous_token = input_token.prev();
           next_token = input_token.next();
 
@@ -182,11 +182,11 @@
         break;
 
         case KEY.TAB:
-          case KEY.RETURN:
-            case KEY.COMMA:
+        case KEY.RETURN:
+        case KEY.COMMA:
 
-              // Submit form if user hits return a second time
-              if(event.keyCode == KEY.RETURN && $(this).val() == "") {
+        // Submit form if user hits return a second time
+        if(event.keyCode == KEY.RETURN && $(this).val() == "" && parentForm.size() > 0) {
           parentForm[0].submit();
           return false;
         }
@@ -746,7 +746,7 @@
         } else if( settings.method == "POST" ) {
           $.post(settings.url + queryStringDelimiter + settings.queryParam + "=" + query, {}, callback, settings.contentType);
         } else {
-          $.get(settings.url + queryStringDelimiter + settings.queryParam + "=" + query, {}, callback, settings.contentType);
+          $.get(settings.url, settings.queryParam + "=" + query, callback, settings.contentType);
         }
       }
     }
