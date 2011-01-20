@@ -40,20 +40,27 @@
 <body>
   <h1>Jquery Tokenizing Autocomplete Input</h1>
 
-  <form>
+<? if($_POST) : ?>
+  <h2>Submitted data (<a href="">clear</a>)</h2>
+    <pre>
+<? print_r($_POST); ?>
+    </pre>
+<? endif; ?>
+
+  <form method="post">
     <fieldset>
       <legend>Vanilla example</legend>
-      <input type="text" id="tokenize" name="tags[]" />
+      <input type="text" id="tokenize" name="tokenize" />
     </fieldset>
 
     <fieldset>
       <legend>Suggested tags</legend>
-      <input type="text" id="tokenize-suggested" name="tags[]" />
+      <input type="text" id="tokenize-suggested" name="tokenize-suggested" />
     </fieldset>
 
     <fieldset>
       <legend>Facebook style</legend>
-      <input type="text" id="tokenize-facebook" name="tags[]" />
+      <input type="text" id="tokenize-facebook" name="tokenize-facebook" />
     </fieldset>
   </form>
 
